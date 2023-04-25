@@ -7,7 +7,7 @@ from classes.exception_classes import ConfigFileReadError
 
 def fill_data_frame(pitems, df):
     columns_collection = []
-    #
+    # MT
     # Convert 1st row to dataFrame headers
     # 
     columns_collection = df.iloc[0]                                 # get the tag names as column headers                              
