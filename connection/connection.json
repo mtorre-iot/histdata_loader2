@@ -1,0 +1,133 @@
+{
+    "api": {
+        "basic_url": "https://sandbox.sensiadigital.net",
+        "credentials": {
+            "user_name": "mario.torre@sensiaglobal.com",
+            "password": "@l3xs0l@r1n"
+        }
+    },
+    "file": {
+        "full_name": "c:\\Mt_Test0.csv"
+    },
+    "backfill": {
+        "full_url": "https://sandbox.sensiadigital.net/timeseries/customers/90713344-18a2-4fe0-8202-3b7047689ccf/timeseries",
+        "headers": {
+            "Content-Type": "",
+            "Authorization": ""
+        },
+        "operation": "",
+        "customer_name": "Augustinian Petroleum",
+        "customer_id": "90713344-18a2-4fe0-8202-3b7047689ccf",
+        "asset_name": "ESP-Well-1",
+        "asset_id": "1acd02dd-26cf-46b0-b351-ced627bf93fc",
+        "asset_full_tree_name": " / North / ESP-Well-1"
+    },
+    "query": {
+        "full_url": "https://sandbox.sensiadigital.net/timeseries/customers/90713344-18a2-4fe0-8202-3b7047689ccf/timeseries",
+        "headers": {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI1ZmpsMWZid1g1YlJmdHRDdGljMW9JY2QyNHBLWHhPOUQwNmw3aHNZTE1JIn0.eyJleHAiOjE2NzY0MDM3ODgsImlhdCI6MTY3NjQwMzQ4OCwianRpIjoiNjhkMGMxYmMtNTFkNy00YzE2LTk4OTAtOWU0NjYzMDEyYzBlIiwiaXNzIjoiaHR0cHM6Ly9hY2NvdW50LnNhbmRib3guc2Vuc2lhZGlnaXRhbC5uZXQvYXV0aC9yZWFsbXMvY3AiLCJhdWQiOlsiYWVkLWFwaSIsInRpbWVzZXJpZXMtdXBsb2FkIiwib2F1dGgtcHJveHkiLCJldmVudC1hcGkiLCJjcC1ub3RpZmljYXRpb24iLCJhc3NldC10ZXN0aW5nIiwiY29tbWVudHMtc2VydmljZSIsImV2ZW50LXJvdXRlciIsInVzZXItdGVtcGxhdGVzLWFwaSIsImNlcnVsZS1tZWRpYXdpa2kiLCJpbnN0YWxsYXRpb24taW5mbyIsIm1vZGVsLW1ldGFkYXRhLWNhY2hlLWxvYWRlciIsImltcG9ydC1leHBvcnQtdG9vbCIsImNwLW1vZGVsIiwiY3AtdGltZXNlcmllcy1yZWFkLWFwaSIsInBlcmYtc2VydmljZSIsImRvd250aW1lLWNhbGMtZW5naW5lIiwiaGlzdG9yaWFuLXJlYWQiLCJsaXZlLWRhdGEtYXBpIiwiZXZlbnQtYWN0aW9uIiwiZWRnZS1wcm92aWRlci1zZXJ2aWNlIiwid3JpdGViYWNrLXNlcnZpY2UiLCJ0cmFuc2FjdGlvbi1hcGkiLCJkZW1vLW1lZGlhd2lraSIsInN0YXRpYy12YWx1ZS1zZXJ2aWNlIiwiYXVkaXQtbG9nLWFwaSIsImFjY291bnQiXSwic3ViIjoiM2JhYTYzY2QtM2E3MS00NzM4LWJkNjAtNmIyY2U5MTIxMTQwIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiQ1AtVUkiLCJzZXNzaW9uX3N0YXRlIjoiN2IzNTk3ZjItNWQwYi00MTYxLWI4ODctZjdkODU2ZDVmMTllIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwczovL3NhbmRib3guc2Vuc2lhZGlnaXRhbC5uZXQiLCJodHRwczovL2FkbWluLnNhbmRib3guc2Vuc2lhZGlnaXRhbC5uZXQiXSwicmVzb3VyY2VfYWNjZXNzIjp7ImNwLW1vZGVsIjp7InJvbGVzIjpbIlN5cyBBZG1pbiJdfSwiYWNjb3VudCI6eyJyb2xlcyI6WyJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6ImNwLWJhY2tlbmQgcHJvZmlsZSBjZXJ1bGUtbWVkaWF3aWtpLXVpIGRlbW8tbWVkaWF3aWtpLXVpIGVtYWlsIiwic2lkIjoiN2IzNTk3ZjItNWQwYi00MTYxLWI4ODctZjdkODU2ZDVmMTllIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsIm5hbWUiOiJNYXJpbyBUb3JyZSIsInByZWZlcnJlZF91c2VybmFtZSI6Im1hcmlvLnRvcnJlQHNlbnNpYWdsb2JhbC5jb20iLCJnaXZlbl9uYW1lIjoiTWFyaW8iLCJmYW1pbHlfbmFtZSI6IlRvcnJlIiwiZW1haWwiOiJtYXJpby50b3JyZUBzZW5zaWFnbG9iYWwuY29tIn0.fSDKnm7jN08ZRRCw6RQa6D_6W9rs7ENb89ySPTmcrjOZG9Taoju3_BjQKomraIpPhjHfsbL-Hyp36aOnvwmuynSlIAX9Ppgx1ryo1WVxdekI3PJKpynOFyUmmZceqSI7CJpKLI7ukfhM2wPcBme1TyxdpXkd4rlLQ01t5JM42O6yRHD2r5iPRc2qFqxqRXqHUdJ0Gj3a0CLRfzsDAV-Dqw85JoHWMC3ajX47nigOdf2EURQFxQ2v-llHO09tVYd8hD9eL3UoBzpt0Cdy5hZKC8g6hnr9BkZsTxFGkGUJ_Z3VoK46kDhLpbS7dRpj2OvCCxhi3fPHGLEjZh9F_z4UgQ"
+        },
+        "operation": "POST",
+        "customer_name": "Augustinian Petroleum",
+        "customer_id": "90713344-18a2-4fe0-8202-3b7047689ccf",
+        "asset_name": "TEST-01",
+        "asset_id": "8aea4391-9b20-4ec3-867a-b4d2f129ab8b",
+        "tag_full_info_array": [
+            {
+                "name": "MT Control 1",
+                "unit": "-",
+                "tag_id": "409d07ac-a78b-4386-9d74-3dd6e87ac5d0"
+            },
+            {
+                "name": "MT Control 2",
+                "unit": "-",
+                "tag_id": "3a0e2a71-419d-4608-88a2-f8552a8c0336"
+            },
+            {
+                "name": "MT Result 1",
+                "unit": "-",
+                "tag_id": "4651d555-99e9-4445-bc41-cff1c34cdebf"
+            },
+            {
+                "name": "MT Result 2",
+                "unit": "-",
+                "tag_id": "fac9492c-91a3-4c31-8bb0-af2361387827"
+            },
+            {
+                "name": "MT Value 1",
+                "unit": "Pa",
+                "tag_id": "bfa5a2ba-f5ac-4435-8a0f-3b81c47535b9"
+            },
+            {
+                "name": "MT Value 2",
+                "unit": "Pa",
+                "tag_id": "5ff1a97c-63cb-4ba2-9152-abc5b6b7c823"
+            },
+            {
+                "name": "MT Value 3",
+                "unit": "Pa",
+                "tag_id": "4e4f0619-e7de-4f02-854e-d3e153f0437c"
+            },
+            {
+                "name": "MT Value 4",
+                "unit": "Pa",
+                "tag_id": "64ff40d5-e73c-4ef5-85f8-0441b71417ab"
+            },
+            {
+                "name": "MT Value 5",
+                "unit": "Pa",
+                "tag_id": "9c16adfa-a162-415a-8933-f3a0548e5fc8"
+            },
+            {
+                "name": "MT Value 6",
+                "unit": "Pa",
+                "tag_id": "5693e6d0-7d6b-4d84-9519-2e38d0529de0"
+            },
+            {
+                "name": "MT Writeback 1",
+                "unit": "Pa",
+                "tag_id": "f105c700-739e-4f2b-8b4c-0566111aa280"
+            },
+            {
+                "name": "MT Writeback 2",
+                "unit": "Pa",
+                "tag_id": "4f465b21-c0e2-4b56-9b60-56fb4d4e5718"
+            }
+        ],
+        "tag_ids": [
+            "409d07ac-a78b-4386-9d74-3dd6e87ac5d0",
+            "3a0e2a71-419d-4608-88a2-f8552a8c0336",
+            "4651d555-99e9-4445-bc41-cff1c34cdebf",
+            "fac9492c-91a3-4c31-8bb0-af2361387827",
+            "bfa5a2ba-f5ac-4435-8a0f-3b81c47535b9",
+            "5ff1a97c-63cb-4ba2-9152-abc5b6b7c823",
+            "4e4f0619-e7de-4f02-854e-d3e153f0437c",
+            "64ff40d5-e73c-4ef5-85f8-0441b71417ab",
+            "9c16adfa-a162-415a-8933-f3a0548e5fc8",
+            "5693e6d0-7d6b-4d84-9519-2e38d0529de0",
+            "f105c700-739e-4f2b-8b4c-0566111aa280",
+            "4f465b21-c0e2-4b56-9b60-56fb4d4e5718"
+        ],
+        "time_period": {
+            "start": "2023-02-14T18:00:00.000Z",
+            "end": "2023-02-14T19:20:00.000Z",
+            "interval_s": 4800
+        },
+        "sampling_definition": {
+            "sampling_type": "timeaverage",
+            "slice_count": 6,
+            "delta_t_symbol": "10T",
+            "delta_t": 600
+        },
+        "payload": "{\"tags\": [{\"logicalEntityId\": \"8aea4391-9b20-4ec3-867a-b4d2f129ab8b\", \"logicalTagId\": \"409d07ac-a78b-4386-9d74-3dd6e87ac5d0\"}, {\"logicalEntityId\": \"8aea4391-9b20-4ec3-867a-b4d2f129ab8b\", \"logicalTagId\": \"3a0e2a71-419d-4608-88a2-f8552a8c0336\"}, {\"logicalEntityId\": \"8aea4391-9b20-4ec3-867a-b4d2f129ab8b\", \"logicalTagId\": \"4651d555-99e9-4445-bc41-cff1c34cdebf\"}, {\"logicalEntityId\": \"8aea4391-9b20-4ec3-867a-b4d2f129ab8b\", \"logicalTagId\": \"fac9492c-91a3-4c31-8bb0-af2361387827\"}, {\"logicalEntityId\": \"8aea4391-9b20-4ec3-867a-b4d2f129ab8b\", \"logicalTagId\": \"bfa5a2ba-f5ac-4435-8a0f-3b81c47535b9\"}, {\"logicalEntityId\": \"8aea4391-9b20-4ec3-867a-b4d2f129ab8b\", \"logicalTagId\": \"5ff1a97c-63cb-4ba2-9152-abc5b6b7c823\"}, {\"logicalEntityId\": \"8aea4391-9b20-4ec3-867a-b4d2f129ab8b\", \"logicalTagId\": \"4e4f0619-e7de-4f02-854e-d3e153f0437c\"}, {\"logicalEntityId\": \"8aea4391-9b20-4ec3-867a-b4d2f129ab8b\", \"logicalTagId\": \"64ff40d5-e73c-4ef5-85f8-0441b71417ab\"}, {\"logicalEntityId\": \"8aea4391-9b20-4ec3-867a-b4d2f129ab8b\", \"logicalTagId\": \"9c16adfa-a162-415a-8933-f3a0548e5fc8\"}, {\"logicalEntityId\": \"8aea4391-9b20-4ec3-867a-b4d2f129ab8b\", \"logicalTagId\": \"5693e6d0-7d6b-4d84-9519-2e38d0529de0\"}, {\"logicalEntityId\": \"8aea4391-9b20-4ec3-867a-b4d2f129ab8b\", \"logicalTagId\": \"f105c700-739e-4f2b-8b4c-0566111aa280\"}, {\"logicalEntityId\": \"8aea4391-9b20-4ec3-867a-b4d2f129ab8b\", \"logicalTagId\": \"4f465b21-c0e2-4b56-9b60-56fb4d4e5718\"}], \"timePeriod\": {\"start\": \"2023-02-14T18:00:00.000Z\", \"end\": \"2023-02-14T19:20:00.000Z\"}, \"samplingDefinition\": {\"samplingType\": \"timeaverage\", \"sliceCount\": 6, \"deltaT\": 600}}"
+    },
+    "token": {
+        "full_url": "https://account.sandbox.sensiadigital.net/auth/realms/cp/protocol/openid-connect/token",
+        "headers": {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "payload": "grant_type=password&client_id=CP-UI&username=mario.torre@sensiaglobal.com&password=@l3xs0l@r1n",
+        "operation": "POST"
+    }
+}

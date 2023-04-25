@@ -1,0 +1,137 @@
+{
+    "version": "1.0.0",
+    "app": {
+        "web_default_port": 8250
+    },
+    "api": {
+        "token": {
+            "url_prefix": "account.",
+            "url_suffix": "/auth/realms/cp/protocol/openid-connect/token",
+            "operation": "POST",
+            "payload_format": "grant_type=password&client_id=CP-UI&username={0}&password={1}",
+            "content_type": "Content-Type",
+            "headers": "application/x-www-form-urlencoded",
+            "refresh_operation": "POST",
+            "refresh_payload_format": "grant_type=refresh_token&client_id=CP-UI&refresh_token={0}",
+            "refresh_content_type": "Content-Type",
+            "refresh_headers": "application/x-www-form-urlencoded"
+        },
+        "customer": {
+            "url_prefix": "admin.",
+            "url_suffix": "/model/customers",
+            "url_suffix_detailed": "/model/customers/{0}",
+            "operation": "GET",
+            "authorization_type": "Authorization",
+            "authorization": "Bearer {0}",
+            "content_type": "Content-Type",
+            "headers": "application/json"
+        },
+        "eng-units": {
+            "url_prefix": "admin.",
+            "url_suffix": "/model/eng-units",
+            "operation": "GET",
+            "authorization_type": "Authorization",
+            "authorization": "Bearer {0}",
+            "content_type": "Content-Type",
+            "headers": "application/json"
+        },
+        "org-unit": {
+            "url_prefix": "admin.",
+            "url_suffix": "/model/customers/{0}/org-units",
+            "operation": "GET",
+            "authorization_type": "Authorization",
+            "authorization": "Bearer {0}",
+            "content_type": "Content-Type",
+            "headers": "application/json"
+        },
+        "setpoint": {
+            "url_prefix": "",
+            "url_suffix": "/statictag/customers/{0}/process-static-value",
+            "operation": "POST",
+            "authorization_type": "Authorization",
+            "authorization": "Bearer {0}",
+            "content_type": "Content-Type",
+            "payload_format": "{0}",
+            "headers": "application/json"
+        },
+        "asset": {
+            "url_prefix": "admin.",
+            "url_suffix": "/model/customers/{0}/assets",
+            "operation": "GET",
+            "authorization_type": "Authorization",
+            "authorization": "Bearer {0}",
+            "content_type": "Content-Type",
+            "headers": "application/json"
+        },
+        "tag": {
+            "url_prefix": "admin.",
+            "url_suffix": "/model/customers/{0}/hierarchy/{1}/tags",
+            "url_suffix_all_tags": "/model/customers/{0}/tags",
+            "operation": "GET",
+            "authorization_type": "Authorization",
+            "authorization": "Bearer {0}",
+            "content_type": "Content-Type",
+            "headers": "application/json",
+            "filters": [
+                "enum"
+            ],
+            "data_types": {
+                "float": "float",
+                "integer": "integer",
+                "boolean": "boolean",
+                "enum": "enum",
+                "string": "string"
+            }
+        },
+        "value": {
+            "url_prefix": "",
+            "url_suffix": "/timeseries/customers/{0}/timeseries",
+            "operation": "POST",
+            "authorization_type": "Authorization",
+            "authorization": "Bearer {0}",
+            "content_type": "Content-Type",
+            "payload_format": "{0}",
+            "headers": "application/json"
+        },
+        "event": {
+            "url_prefix": "",
+            "url_suffix": "/events/customers/{0}/events/history?entity_ids={1}&start_time={2}&end_time={3}",
+            "filter_options": [
+                "&active={0}",
+                "&suppressed={0}",
+                "&inmaintenance={0}",
+                "&shelved={0}"
+            ],
+            "operation": "GET",
+            "authorization_type": "Authorization",
+            "authorization": "Bearer {0}",
+            "content_type": "Content-Type",
+            "headers": "application/json"
+        }
+    },
+    "file": {
+        "time_column" : "Time"
+    },
+    "opts": {
+        "webport_help": "Web port",
+        "version_help": "current version"
+    },
+    "env": {
+        "web_port": "WEB_PORT"
+    },
+    "dirs": {
+        "config_dir": "config/",
+        "connection_dir": "connection/",
+        "panel_config_dir": "config/",
+        "connection_file": "connection.json",
+        "connection_file_bck": "connection_backup.json",
+        "connection_file_deploy": "connection_deploy.json",
+        "panel_config_file": "panel_config.json"
+    },
+    "log": {
+        "log_to_file": false,
+        "log_file": "logs/bi-adapter-{0}.log",
+        "level": "DEBUG",
+        "format": "%(asctime)-15s %(threadName)-15s %(levelname)-8s %(module)-15s:%(lineno)-8s %(message)s"
+    }
+}
