@@ -52,6 +52,13 @@ def removeTimezoneDateTime(dt):
         rtn = dt.replace(tzinfo=None)
     return rtn
 
+def formatDateTimeToISO8601_UTC(dt):
+    return "%s:%.3f%s" % (
+        dt.strftime('%Y-%m-%dT%H:%M'),
+        float("%.3f" % (dt.second + dt.microsecond / 1e6)),
+        dt.strftime('Z')
+    )   
+
 def convert_array_to_dict(dict_array, name, id):
     rtn = {}
     for pair in dict_array:

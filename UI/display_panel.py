@@ -7,13 +7,14 @@ from io import BytesIO
 import os
 from pathlib import Path
 import webbrowser
+from build_upload_file import build_upload_file
 from fill_data_frame import fill_data_frame
 from histdata_read import histdata_read
 import numpy as np
 import panel as pn
 import pandas as pd
 from UI.alerts import set_alert_message, show_alert_general
-from classes.api_classes import AvalonAssets, AvalonCustomerDetails, AvalonCustomers, AvalonCustomerDetails, AvalonEngUnits, AvalonEvents, AvalonOrgUnits, AvalonTags, AvalonTagsDetails, AvalonValues, AvalonSetpoint, CurrentSelection, TagFullInfo
+from classes.api_classes import AvalonAssets, AvalonCustomerDetails, AvalonCustomers, AvalonCustomerDetails, AvalonEngUnits, AvalonEvents, AvalonOrgUnits, AvalonTags, AvalonTagsDetails, AvalonValues, AvalonSetpoint, CurrentSelection, TagBackfillFullInfo, TagFullInfo
 from classes.connection import Credentials
 #from classes.db_classes import ColumnData, DBConnection
 
@@ -137,18 +138,32 @@ def upload_data_file_button_callback(event):
     #
     df = pd.DataFrame()
     fullFileName = pitems.upload_data_file_textbox.value
+    pitems.api_create_backfill_file_button.disabled = True
+    pitems.api_initiate_backfill_button.disabled = True
+    
     if len(fullFileName) > 0:
             try:
                 df = histdata_read(logger, config, api_tags, fullFileName)
             except Exception as e:
                 show_alert(17, e)
-                logger.error(str(e))         
+                logger.error(str(e))
+                return         
     else:
-        show_alert(17, fullFileName)        
+        show_alert(17, fullFileName)       
+
     if (df.empty == False):
         #
-        # save filename into the connection information
+        # Present data in Tabular 
         #
+        try:
+            df = fill_data_frame(logger, df)
+        except Exception as e:
+            show_alert(17, e)
+            logger.error(str(e))
+            return
+        
+        pitems.total_rows.value = df.shape[0]
+
         file_connection.full_name = fullFileName
         backfill_connection.customer_name = selection.selected_customer.name
         backfill_connection.customer_id = selection.selected_customer.id
@@ -157,17 +172,62 @@ def upload_data_file_button_callback(event):
         backfill_connection.asset_id = selection.selected_asset.id
         StoreCurrentConnection()
         #
-        # Present data in Tabular 
+        # try to show it on screen
         #
-        try:
-            fill_data_frame(pitems, df)
-            show_alert(18, fullFileName)
-            logger.info ("Data File " + fullFileName + " successfully loaded.")
-        except Exception as e:
-            show_alert(17, e)
-            logger.error(str(e))  
+        pitems.data_table_widget.value = df
+        pitems.api_create_backfill_file_button.disabled = False
+        pitems.api_initiate_backfill_button.disabled = True
+        show_alert(18, fullFileName)
+        logger.info ("Data File " + fullFileName + " successfully loaded.")
     return
 
+def api_initiate_backfill_callback(event):
+    #
+    # Check if we need to refresh the token
+    #
+    try:
+        session_token.Refresh(api_connection, config)
+    except Exception as e:
+        logger.error("Error trying to refresh the API token. Error: " + str(e))
+        show_alert(7, e)
+        return
+    #
+    return
+    
+def api_create_backfill_file_callback(event):
+    #
+    # get the created data frame
+    df = pitems.data_table_widget.value
+    #
+    # save the tag list of all tags identified from the file
+    #
+    tagNames = df.columns
+    tag_backfill_full_info_array = []
+    for i in range(1, len(tagNames)):
+        tagData = api_tags.FindTagName(tagNames[i])
+        tag_backfill_full_info_array.append(TagBackfillFullInfo(tagData.name, tagData.tagId, tagData.resolvedTag.dataSourceId, tagData.resolvedTag.physicalTagId)) 
+    #
+    # save filename into the connection information
+    #
+    backfill_connection.tag_backfill_full_info_array = tag_backfill_full_info_array
+    StoreCurrentConnection()
+    #
+    # Create the upload csv file
+    #
+    try: 
+        initial_time = pitems.start_datetime.value
+        upload_df = build_upload_file(logger, initial_time, df, backfill_connection, config)
+        logger.info("Upload file created successfully.")
+    except Exception as e:
+        show_alert(19, e)
+        logger.error(str(e))
+        return
+    pitems.api_initiate_backfill_button.disabled = False
+    pitems.update_table_widget.value = upload_df
+    pitems.total_upload_rows.value = upload_df.shape[0]
+    csvFile = os.path.join(config['dirs']['upload_dir'], config['dirs']['upload_file'])
+    show_alert(21, csvFile)
+    logger.info ("Upload File " + csvFile + " successfully created.")
 # ----------------------------------------------------------------------------- #
 # Misc Functions 
 # ----------------------------------------------------------------------------- #
@@ -219,10 +279,6 @@ def api_update_selection():
     # fill the customer selector
     #
     pitems.customer_selector.options = api_customers.Get_Customer_names()
-    ### 
-    ### fill the wb customer selector
-    ###
-    ##pitems.wb_customer_selector.options = pitems.customer_selector.options
     return
 
 def query_hierarchy(customer_id, asset_id):
@@ -350,7 +406,7 @@ def display_panel(l_logger, c_config, p_config, n_connection, web_port, s_token,
     panel_config = p_config
     connection = n_connection
     api_connection = n_connection.api
-    query_connection = n_connection.query
+    ##query_connection = n_connection.query
     token_connection = n_connection.token
     session_token = s_token
     file_connection = n_connection.file
@@ -425,33 +481,30 @@ def display_panel(l_logger, c_config, p_config, n_connection, web_port, s_token,
     pitems.upload_data_file_button = pn.widgets.Button(name=panel_config['buttons']['upload_data_file_button']['name'], 
         width=panel_config['buttons']['upload_data_file_button']['size'], button_type=panel_config['buttons']['upload_data_file_button']['type'], disabled=not connection_valid)
     pitems.upload_data_file_button.on_click(upload_data_file_button_callback)
+    pitems.total_rows = pn.widgets.StaticText(name=panel_config['labels']["label8_name"], value=0)
     pitems.data_table_widget = pn.widgets.Tabulator(pitems.data_table1,layout='fit_data', width=panel_config['tables']['1']['width'], pagination='local', show_index=False, selectable=False, page_size=panel_config['tables']['1']['page_size'], disabled=True)
-        #
+    #
     # Data File textbox
     #
     pitems.upload_data_file_textbox = pn.widgets.TextInput(name=panel_config["labels"]['label5_name'], value=file_connection.full_name)
-    # #
-    # # File Dialog modal
-    # #
-    # pitems.file_dialog_1 = pn.widgets.FileSelector(only_files=False, root_directory=Path.home(), directory=Path.home())
-    # pitems.file_dialog_1_ok = pn.widgets.Button(name=panel_config['buttons']['file_dialog_ok_button']['name'], 
-    #     width=panel_config['buttons']['file_dialog_ok_button']['size'], button_type=panel_config['buttons']['file_dialog_ok_button']['type'], disabled=False)
-    # ###file_dialog_1_ok.on_click(file_dialog_1_ok_callback)
-    # pitems.file_dialog_1_cancel = pn.widgets.Button(name=panel_config['buttons']['file_dialog_cancel_button']['name'], 
-    #     width=panel_config['buttons']['file_dialog_cancel_button']['size'], button_type=panel_config['buttons']['file_dialog_cancel_button']['type'], disabled=False)
-    # ###file_dialog_1_cancel.on_click(file_dialog_1_ok_callback)
-
-    # modal_widgetbox = pn.WidgetBox(sizing_mode='stretch_width', width_policy='auto')
-
-    # pitems.modal_component_1 = pn.Row(pitems.file_dialog_1)
-    # pitems.modal_component_2 = pn.Row(pn.Column(pitems.file_dialog_1_ok), pn.Column(pitems.file_dialog_1_cancel))
-    # modal_widgetbox.append(pitems.modal_component_1)
-    # modal_widgetbox.append(pitems.modal_component_2)
-
-    ###################==============================================###################################
-    ###pitems.model_table = None
-    ###pitems.model_table_widget = pn.widgets.Tabulator(pitems.model_table, width=panel_config['tables']['2']['width'], layout='fit_data_table', pagination='local', show_index=False, selectable=False, page_size=panel_config['tables']['2']['page_size'], disabled=True)
-    ###pitems.model_total_rows = pn.widgets.StaticText(name=panel_config['labels']["label8_name"], value=0)
+    #
+    # Widget 3
+    #
+    pitems.update_table2 = None
+    pitems.widget3_title = pn.pane.Markdown(panel_config['widgetboxes']['3']['name'])
+    pitems.start_datetime = pn.widgets.DatetimePicker(name=panel_config['date_pickers']['1']['name'], value=datetime.now()-timedelta(hours=panel_config['date_pickers']['1']['back_hours']))
+    pitems.total_upload_rows = pn.widgets.StaticText(name=panel_config['labels']["label8_name"], value=0)
+    pitems.update_table_widget = pn.widgets.Tabulator(pitems.update_table2,layout='fit_data', width=panel_config['tables']['2']['width'], pagination='local', show_index=False, selectable=False, page_size=panel_config['tables']['2']['page_size'], disabled=True)    
+    #
+    # Widget 3 Buttons
+    #
+    pitems.api_create_backfill_file_button = pn.widgets.Button(name=panel_config['buttons']['api_create_backfill_file_button']['name'], 
+        width=panel_config['buttons']['api_create_backfill_file_button']['size'], button_type=panel_config['buttons']['api_create_backfill_file_button']['type'], disabled=True)
+    pitems.api_create_backfill_file_button.on_click(api_create_backfill_file_callback)
+    
+    pitems.api_initiate_backfill_button = pn.widgets.Button(name=panel_config['buttons']['api_initiate_backfill_button']['name'], 
+        width=panel_config['buttons']['api_initiate_backfill_button']['size'], button_type=panel_config['buttons']['api_initiate_backfill_button']['type'], disabled=True)
+    pitems.api_initiate_backfill_button.on_click(api_initiate_backfill_callback)
     # 
     # Create the Tab Object
     #
@@ -614,12 +667,31 @@ def display_panel(l_logger, c_config, p_config, n_connection, web_port, s_token,
     widgetbox_2b.append(
         pn.Row(
             pn.Column(pitems.upload_data_file_textbox),
-            pn.Column(pitems.upload_data_file_button)
+            pn.Column(pitems.upload_data_file_button),
+            pn.Column(pitems.total_rows)
         )
     )
     widgetbox_2b.append(pn.Row(pitems.data_table_widget))
     widgetbox_2.append(widgetbox_2b)
     tabs.append(widgetbox_2)
+    # WIDGET 3 -----------------------------------------------------------------------------------
+    widgetbox_3 = pn.WidgetBox (name=panel_config['widgetboxes']['3']['tab_name'], width=panel_config['widgetboxes']['3']['width'], height=panel_config['widgetboxes']['3']['height'])
+    widgetbox_3.append(pitems.widget3_title)
+    
+    widgetbox_3.append(
+        pn.Row(
+            pn.Column(
+                pn.Column(pitems.start_datetime)
+            ),
+            pn.Column(
+                pn.Column(pitems.api_create_backfill_file_button),
+                pn.Column(pitems.api_initiate_backfill_button),
+                pn.Column(pitems.total_upload_rows)
+            )
+        )
+    )
+    widgetbox_3.append(pn.Row(pitems.update_table_widget))
+    tabs.append(widgetbox_3)
 
     # COMMON WIDGET -----------------------------------------------------------------------------------
     tpl.main.append(tabs)

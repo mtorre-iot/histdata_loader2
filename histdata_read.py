@@ -19,18 +19,18 @@ def histdata_read(logger, cfg, api_tags, fullFileName):
     # Try to read file it as csv
     #
     logger.debug ("Reading csv file: " + fullFileName)
-    df = pd.read_csv(fullFileName, header=None)
+    df = pd.read_csv(fullFileName)
     # 
     # read successful - 1st row are the tag names. 
     #
-    tagNames = df.iloc[0]
+    tagNames = df.columns
     #
     # check that the first header is correct
     
     if tagNames[0] != cfg['file']['time_column']:
         raise ConfigFileReadError("First column of file " + fullFileName + " must be " + cfg['file']['time_column'] + " Please check.")
     #
-    # Check all tags - avoud duplicates
+    # Check all tags - avoid duplicates
     #
     checked_tags = []
     for i in range (1, len(tagNames)): 
@@ -42,6 +42,17 @@ def histdata_read(logger, cfg, api_tags, fullFileName):
         except ValueError:
             checked_tags.append(tagNames[i])    
     #
-    # Tags checked. Return the dataFrame
+    # Tags checked. Now place all data in their correct data types
+    #
+    # convert time column to datetime
+    df[cfg['file']['time_column']] = pd.to_datetime(df[cfg['file']['time_column']])
+    # convert all other data to float
+    for i in range (1, len(df.columns)):
+        try:
+            df[df.columns[i]] = df[df.columns[i]].astype(float)
+        except Exception as e:
+            raise Exception("Invalid number found on column " + df.columns[i] + " Error: " + str(e))
+    #
+    #  Return the dataFrame
     #
     return df

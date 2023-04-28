@@ -1,0 +1,5 @@
+__pycache__/
+lib/__pycache__/
+pflib/__pycache__/
+UI/__pycache__/
+data/

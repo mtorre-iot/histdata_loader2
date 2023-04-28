@@ -126,12 +126,27 @@
         "connection_file": "connection.json",
         "connection_file_bck": "connection_backup.json",
         "connection_file_deploy": "connection_deploy.json",
-        "panel_config_file": "panel_config.json"
+        "panel_config_file": "panel_config.json",
+        "upload_dir": "data/",
+        "upload_file": "upload_file.csv"
     },
     "log": {
         "log_to_file": false,
         "log_file": "logs/bi-adapter-{0}.log",
         "level": "DEBUG",
         "format": "%(asctime)-15s %(threadName)-15s %(levelname)-8s %(module)-15s:%(lineno)-8s %(message)s"
+    },
+    "misc": {
+        "quality": {
+            "good": 192
+        },
+        "backfill_data_cols": [
+            "customer_id",
+            "data_source_id",
+            "physical_tag_id",
+            "value",
+            "quality",
+            "UTC_TimeStamp"
+        ]
     }
 }

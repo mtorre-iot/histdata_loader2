@@ -8,7 +8,8 @@
         "label2_name" : "Avalon URL",
         "label3_name" : "Username",
         "label4_name" : "Password",
-        "label5_name" : "Data File"
+        "label5_name" : "Data File",
+        "label8_name" : "Total Rows"
     },
     "buttons": {
         "api_update_button": {
@@ -41,13 +42,13 @@
             "size": 120,
             "type": "primary"
         },
-        "api_initiate_query_button": {
-            "name": "Initiate Query",
+        "api_initiate_backfill_button": {
+            "name": "Initiate Backfill",
             "size": 100,
             "type": "primary"
         },
-        "api_initiate_event_query_button": {
-            "name": "Initiate Query",
+        "api_create_backfill_file_button": {
+            "name": "Create Upload File",
             "size": 100,
             "type": "primary"
         }
@@ -71,6 +72,12 @@
     },
     "tables": {
         "1": {
+            "num_rows": 10,
+            "num_columns": 50,
+            "width": 1350,
+            "page_size": 10
+        },
+        "2": {
             "num_rows": 10,
             "num_columns": 50,
             "width": 1350,
@@ -170,6 +177,21 @@
                 "severity": "success",
                 "time": 3
             },
+            "19": {
+                "text": "Upload csv file could not be created. Error: {0}",
+                "severity": "error",
+                "time": 3
+            },
+            "20": {
+                "text": "No data has been loaded. Check prodedure.",
+                "severity": "error",
+                "time": 3
+            },
+            "21": {
+                "text": "Upload File {0} successfully created.",
+                "severity": "success",
+                "time": 3
+            },
             "31": {
                 "text": "Unable to get the Org Unit hierarchy List. Please check configuration. <br> Error: {0}",
                 "severity": "error",
@@ -225,8 +247,8 @@
             "height": 500
         },
         "3": {
-            "name": "##Data Query",
-            "tab_name": "Data Query",
+            "name": "##Backfill",
+            "tab_name": "Backfill",
             "width": 1400,
             "height": 700
         },

@@ -825,6 +825,13 @@ class TagDetail (object):
         self.edited_time = json.get('editedTime')
         return
 
+class  TagBackfillFullInfo(object):
+    def __init__(self, name, tag_id, data_source_id, physical_tag_id):
+        self.name = name
+        self.tagId = tag_id
+        self.dataSourceId = data_source_id
+        self.physicalTagId = physical_tag_id
+
 class TagFullInfo (object):
     def __init__(self, name, unit, tag_id):
         self.name = name
@@ -835,7 +842,7 @@ class ResolvedTag(object):
     def __init__ (self, dataSourceId, logicalTagId, physicalTagId, engineeringUnitCategoryId, incomingEngineeringUnitId, \
         enumId, dataType, mappingId, logicalTagName, physicalTagName, min, max, writable, manual):
         
-        self.logicalTagId = dataSourceId
+        self.dataSourceId = dataSourceId
         self.logicalTagId = logicalTagId
         self.physicalTagId = physicalTagId
         self.engineeringUnitCategoryId = engineeringUnitCategoryId
