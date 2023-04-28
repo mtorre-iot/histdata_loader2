@@ -107,6 +107,15 @@
             "authorization": "Bearer {0}",
             "content_type": "Content-Type",
             "headers": "application/json"
+        },
+        "backfill": {
+            "url_prefix": "",
+            "url_suffix": "/tsupload/timeseries",
+            "operation": "POST",
+            "authorization_type": "Authorization",
+            "authorization": "Bearer {0}",
+            "content_type": "Content-Type",
+            "headers": "application/json"
         }
     },
     "file": {

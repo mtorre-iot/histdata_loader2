@@ -14,7 +14,7 @@ import numpy as np
 import panel as pn
 import pandas as pd
 from UI.alerts import set_alert_message, show_alert_general
-from classes.api_classes import AvalonAssets, AvalonCustomerDetails, AvalonCustomers, AvalonCustomerDetails, AvalonEngUnits, AvalonEvents, AvalonOrgUnits, AvalonTags, AvalonTagsDetails, AvalonValues, AvalonSetpoint, CurrentSelection, TagBackfillFullInfo, TagFullInfo
+from classes.api_classes import AvalonAssets, AvalonBackFill, AvalonCustomerDetails, AvalonCustomers, AvalonCustomerDetails, AvalonEngUnits, AvalonEvents, AvalonOrgUnits, AvalonTags, AvalonTagsDetails, AvalonValues, AvalonSetpoint, CurrentSelection, TagBackfillFullInfo, TagFullInfo
 from classes.connection import Credentials
 #from classes.db_classes import ColumnData, DBConnection
 
@@ -192,6 +192,18 @@ def api_initiate_backfill_callback(event):
         show_alert(7, e)
         return
     #
+    # Go ahead an issue the upload command!
+    # 
+    try:
+        fullFileName = os.path.abspath(os.path.join(config['dirs']['upload_dir'], config['dirs']['upload_file']))
+        api_backfill.Request_backfill(api_connection, fullFileName, session_token.token, config)
+    except Exception as e:
+        logger.error("Error trying to upload backfill data to System. Error: " + str(e))
+        show_alert(22, e)
+        return
+    
+    logger.info ("Upload completed satisfactorily!")
+    show_alert(23, None)
     return
     
 def api_create_backfill_file_callback(event):
@@ -312,63 +324,7 @@ def query_hierarchy(customer_id, asset_id):
             logger.error("Error trying to get the Assets - Org Units relationdship for customer {0}. Error: {1}", customer_id, str(e))
             show_alert(32, e)
             return
-        # #
-        # # fill the tabulator on screen 
-        # df = pd.DataFrame(columns = config['model']['table_columns'])
-        # #
-        # #  get the selected customer info
-        # #
-        # root = api_customer_details.customer_detail
-        # df.loc[0] = [root.id, root.name, np.nan, np.nan, config['model']['record_types']['customer'], \
-        #      pd.to_datetime(root.created_time, utc=True), pd.to_datetime(root.edited_time, utc=True)]
-        # #
-        # off = df.shape[0]
-        # #
-        # # Now add the Org Units
-        # #
-        # for i, ou in enumerate(api_org_units.org_units):
-        #     df.loc[off+i] = [ou.id, ou.name, ou.parent_id, ou.parent_name, config['model']['record_types']['hierarchy'], \
-        #         pd.to_datetime(ou.created_time, utc=True), pd.to_datetime(ou.edited_time, utc=True)]
-        # #
-        # # Now add the assets as well
-        # #
-        # off = df.shape[0]
-        # for j, a in enumerate(api_assets.assets):
-        #     df.loc[off+j] = [a.id, a.name, a.parentId, a.parent_name, config['model']['record_types']['asset'], \
-        #         pd.to_datetime(a.created_time, utc=True), pd.to_datetime(a.edited_time, utc=True)]
-        # #
-        # # Get ALL tags belonging to to all assets of this customer
-        # #
-        # #
-        # # loop trough all assets
-        # #
-        # for ast in api_assets.assets:
-        #     asset_id = ast.id
-        #     api_all_tags = AvalonTags()
-        #     try:
-        #         api_all_tags.Request_tags(api_connection, customer_id, asset_id, session_token.token, config)
-        #     except Exception as e:
-        #         logger.error("Error trying to get the Tags for customer {0}. Error: {1}", customer_id, str(e))
-        #         show_alert(35, e)
-        #         return
-        #     #
-        #     # Now add the tags for selected customer and asset
-        #     #
-        #     off = df.shape[0]
-        #     for j, t in enumerate(api_all_tags.tags):
-        #         created_time, edited_time = t.Get_times(api_tags_details)
-        #         asset_name = api_assets.Find_name_from_id(t.assetId)
-        #         combined_id = t.tagId + "-" + t.assetId # make it unique
-        #         df.loc[off+j] = [combined_id, t.name, t.assetId, asset_name, config['model']['record_types']['tag'], \
-        #             pd.to_datetime(created_time, utc=True), pd.to_datetime(edited_time, utc=True)]
-        # #
-        # # Got it! now show it to screen! and the number of rows too
-        # #
-        # pitems.model_table_widget.value = df
-        # pitems.model_total_rows.value = df.shape[0]
-        # #
-        # # Save into the main pitems object.
-        # pitems.model_export_dataframe = df
+        
     return
 
 def select_assets():
@@ -397,7 +353,7 @@ def display_panel(l_logger, c_config, p_config, n_connection, web_port, s_token,
     # Get panel configuration
     #
     global config, panel_config, connection, api_connection, token_connection, \
-        api_customers, api_org_units, api_assets, api_tags, selection, \
+        api_customers, api_org_units, api_assets, api_tags, api_backfill, selection, \
         file_connection, backfill_connection, session_token, logger, \
         tpl
     
@@ -431,6 +387,7 @@ def display_panel(l_logger, c_config, p_config, n_connection, web_port, s_token,
     api_tags = AvalonTags()
     api_org_units = AvalonOrgUnits()
     api_assets = AvalonAssets()
+    api_backfill = AvalonBackFill()
     # ----------------------------------------------------------------------------- #
     # Basic Display building components 
     # ----------------------------------------------------------------------------- #

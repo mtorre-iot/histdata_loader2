@@ -610,6 +610,43 @@ class AvalonEvents(AvalonAPIBase):
         if status == False:
             raise Exception("Eng Units Request failed. Message: HTTP %i - %s, Message %s" % (self.data_response.status_code, self.data_response.reason, self.data_response.text))
 
+class AvalonBackFill(AvalonAPIBase):
+    def __init__(self):
+        AvalonAPIBase.__init__(self)
+        self.files = None
+
+    def Build_backfill_headers(self, content_type, headers, authorization_type, authorization, token):
+        self.headers = { content_type: headers, authorization_type:  authorization.format(token) }
+
+    def Build_backfill_files(self, fullFileName):
+        
+        self.files = {
+            'incfile': open(fullFileName, 'rb'),
+        }
+
+    def Request(self):
+        #####self.data_response  = requests.request(self.operation, self.url, headers=self.headers, files=self.files)
+        # if self.data_response.ok == True:
+        #     data=json.loads(self.data_response.text)
+        #     for d in data:
+        #         asset = Asset()
+        #         asset.from_json(d)
+        #         self.assets.append(asset)    
+        ####return self.data_response.ok
+        return True
+
+    def Request_backfill(self, api_connection, fullFileName, token, config):
+            #
+            # fill the object   
+            #
+            self.Build_url(config['api']['backfill']['url_prefix'], api_connection.basic_url, config['api']['backfill']['url_suffix'])
+            self.Build_backfill_headers(config['api']['backfill']['content_type'], config['api']['backfill']['headers'], config['api']['backfill']['authorization_type'], \
+                config['api']['backfill']['authorization'], token)
+            self.Build_backfill_files(fullFileName)
+            self.operation = config['api']['backfill']['operation']
+            status = self.Request()
+            if status == False:
+                raise Exception("Asset Request failed. Message: HTTP %i - %s, Message %s" % (self.data_response.status_code, self.data_response.reason, self.data_response.text))
 
 class EngUnitGroup(object):
     def __init__(self):

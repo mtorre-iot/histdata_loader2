@@ -192,6 +192,16 @@
                 "severity": "success",
                 "time": 3
             },
+            "22": {
+                "text": "Error trying to upload backfill data to System. Error: {0}",
+                "severity": "error",
+                "time": 5
+            },
+            "23": {
+                "text": "Upload completed satisfactorily!",
+                "severity": "success",
+                "time": 3
+            },
             "31": {
                 "text": "Unable to get the Org Unit hierarchy List. Please check configuration. <br> Error: {0}",
                 "severity": "error",
