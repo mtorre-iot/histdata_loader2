@@ -616,24 +616,18 @@ class AvalonBackFill(AvalonAPIBase):
         self.files = None
 
     def Build_backfill_headers(self, content_type, headers, authorization_type, authorization, token):
-        self.headers = { content_type: headers, authorization_type:  authorization.format(token) }
+        #self.headers = { content_type: headers, authorization_type:  authorization.format(token) }
+        self.headers = { authorization_type:  authorization.format(token) }
 
     def Build_backfill_files(self, fullFileName):
         
         self.files = {
-            'incfile': open(fullFileName, 'rb'),
+            'incfile': open(fullFileName, 'rb')
         }
 
     def Request(self):
-        #####self.data_response  = requests.request(self.operation, self.url, headers=self.headers, files=self.files)
-        # if self.data_response.ok == True:
-        #     data=json.loads(self.data_response.text)
-        #     for d in data:
-        #         asset = Asset()
-        #         asset.from_json(d)
-        #         self.assets.append(asset)    
-        ####return self.data_response.ok
-        return True
+        self.data_response  = requests.request(self.operation, self.url, headers=self.headers, files=self.files)
+        return self.data_response.ok
 
     def Request_backfill(self, api_connection, fullFileName, token, config):
             #

@@ -7,7 +7,7 @@
         }
     },
     "file": {
-        "full_name": "c:\\Mt_Test0.csv"
+        "full_name": "c:\\Mt_Test4.csv"
     },
     "backfill": {
         "full_url": "https://sandbox.sensiadigital.net/timeseries/customers/90713344-18a2-4fe0-8202-3b7047689ccf/timeseries",
@@ -18,51 +18,51 @@
         "operation": "",
         "customer_name": "Augustinian Petroleum",
         "customer_id": "90713344-18a2-4fe0-8202-3b7047689ccf",
-        "asset_name": "ESP-Well-1",
-        "asset_id": "1acd02dd-26cf-46b0-b351-ced627bf93fc",
-        "asset_full_tree_name": " / North / ESP-Well-1",
+        "asset_name": "UPLOAD-01",
+        "asset_id": "5a4111bf-87e5-49a5-997a-92df0828a656",
+        "asset_full_tree_name": " / East / UPLOAD-01",
         "tag_backfill_full_info_array": [
             {
-                "name": "vsfreqout",
-                "tagId": "8aff5f13-67f5-49ac-b3ad-81ba47a94b41",
-                "dataSourceId": "fe97f257-439a-4a49-9893-a506d0c9a389",
-                "physicalTagId": "8aff5f13-67f5-49ac-b3ad-81ba47a94b41"
+                "name": "Drive Frequency",
+                "tagId": "6d2a0904-ba71-454f-82b4-1335e865a618",
+                "dataSourceId": "5b69b4b2-ae42-44e6-85fc-74a2ef2ff514",
+                "physicalTagId": "6d2a0904-ba71-454f-82b4-1335e865a618"
             },
             {
-                "name": "vsdmotamps",
-                "tagId": "27849ec1-57d6-46c0-9f58-c0f767a5b3a6",
-                "dataSourceId": "fe97f257-439a-4a49-9893-a506d0c9a389",
-                "physicalTagId": "27849ec1-57d6-46c0-9f58-c0f767a5b3a6"
+                "name": "VSD Current",
+                "tagId": "ddf4aa17-d711-4e05-b1af-fef8c0d6c8dd",
+                "dataSourceId": "5b69b4b2-ae42-44e6-85fc-74a2ef2ff514",
+                "physicalTagId": "ddf4aa17-d711-4e05-b1af-fef8c0d6c8dd"
+            },
+            {
+                "name": "Output Voltage",
+                "tagId": "4edaa2f9-dbc0-42e2-adf7-be592194ffe4",
+                "dataSourceId": "5b69b4b2-ae42-44e6-85fc-74a2ef2ff514",
+                "physicalTagId": "4edaa2f9-dbc0-42e2-adf7-be592194ffe4"
             },
             {
                 "name": "Intake Temperature",
                 "tagId": "acefd5ae-3eb7-41f0-8469-50eda1c3a27b",
-                "dataSourceId": "fe97f257-439a-4a49-9893-a506d0c9a389",
+                "dataSourceId": "5b69b4b2-ae42-44e6-85fc-74a2ef2ff514",
                 "physicalTagId": "acefd5ae-3eb7-41f0-8469-50eda1c3a27b"
             },
             {
                 "name": "Motor Temperature",
                 "tagId": "8d570de8-0e07-434d-b3d5-2111f4c2d294",
-                "dataSourceId": "fe97f257-439a-4a49-9893-a506d0c9a389",
+                "dataSourceId": "5b69b4b2-ae42-44e6-85fc-74a2ef2ff514",
                 "physicalTagId": "8d570de8-0e07-434d-b3d5-2111f4c2d294"
             },
             {
                 "name": "Intake Pressure",
                 "tagId": "432d449b-6964-48b6-a7c0-11748775700b",
-                "dataSourceId": "fe97f257-439a-4a49-9893-a506d0c9a389",
+                "dataSourceId": "5b69b4b2-ae42-44e6-85fc-74a2ef2ff514",
                 "physicalTagId": "432d449b-6964-48b6-a7c0-11748775700b"
             },
             {
                 "name": "Discharge Pressure",
                 "tagId": "e101ffd2-8e4f-4c72-9ac1-13d76a2cd15a",
-                "dataSourceId": "fe97f257-439a-4a49-9893-a506d0c9a389",
+                "dataSourceId": "5b69b4b2-ae42-44e6-85fc-74a2ef2ff514",
                 "physicalTagId": "e101ffd2-8e4f-4c72-9ac1-13d76a2cd15a"
-            },
-            {
-                "name": "well head pressure",
-                "tagId": "af2336aa-a6ee-497f-87ac-e3448dfa6b89",
-                "dataSourceId": "fe97f257-439a-4a49-9893-a506d0c9a389",
-                "physicalTagId": "af2336aa-a6ee-497f-87ac-e3448dfa6b89"
             }
         ]
     },

@@ -440,6 +440,7 @@ def display_panel(l_logger, c_config, p_config, n_connection, web_port, s_token,
     pitems.upload_data_file_button.on_click(upload_data_file_button_callback)
     pitems.total_rows = pn.widgets.StaticText(name=panel_config['labels']["label8_name"], value=0)
     pitems.data_table_widget = pn.widgets.Tabulator(pitems.data_table1,layout='fit_data', width=panel_config['tables']['1']['width'], pagination='local', show_index=False, selectable=False, page_size=panel_config['tables']['1']['page_size'], disabled=True)
+    pitems.warning_units = pn.pane.Markdown(panel_config['labels']["label9_name"], width=panel_config['labels']['special_size1'])
     #
     # Data File textbox
     #
@@ -462,6 +463,7 @@ def display_panel(l_logger, c_config, p_config, n_connection, web_port, s_token,
     pitems.api_initiate_backfill_button = pn.widgets.Button(name=panel_config['buttons']['api_initiate_backfill_button']['name'], 
         width=panel_config['buttons']['api_initiate_backfill_button']['size'], button_type=panel_config['buttons']['api_initiate_backfill_button']['type'], disabled=True)
     pitems.api_initiate_backfill_button.on_click(api_initiate_backfill_callback)
+    pitems.warning_time = pn.pane.Markdown(panel_config['labels']["label10_name"], width=panel_config['labels']['special_size1'])
     # 
     # Create the Tab Object
     #
@@ -625,7 +627,8 @@ def display_panel(l_logger, c_config, p_config, n_connection, web_port, s_token,
         pn.Row(
             pn.Column(pitems.upload_data_file_textbox),
             pn.Column(pitems.upload_data_file_button),
-            pn.Column(pitems.total_rows)
+            pn.Column(pitems.total_rows), 
+            pn.Column(pitems.warning_units)
         )
     )
     widgetbox_2b.append(pn.Row(pitems.data_table_widget))
@@ -637,17 +640,16 @@ def display_panel(l_logger, c_config, p_config, n_connection, web_port, s_token,
     
     widgetbox_3.append(
         pn.Row(
-            pn.Column(
-                pn.Column(pitems.start_datetime)
-            ),
-            pn.Column(
-                pn.Column(pitems.api_create_backfill_file_button),
-                pn.Column(pitems.api_initiate_backfill_button),
-                pn.Column(pitems.total_upload_rows)
-            )
+            pn.Column(pitems.start_datetime),
+            pn.Column(pitems.api_create_backfill_file_button),
+            pn.Spacer(width=50),
+            pn.Column(pitems.api_initiate_backfill_button),
+            pn.Spacer(width=50),
+            pn.Column(pitems.total_upload_rows)
         )
     )
     widgetbox_3.append(pn.Row(pitems.update_table_widget))
+    widgetbox_3.append(pn.Row(pitems.warning_time))
     tabs.append(widgetbox_3)
 
     # COMMON WIDGET -----------------------------------------------------------------------------------

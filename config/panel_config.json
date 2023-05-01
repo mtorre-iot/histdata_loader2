@@ -9,7 +9,10 @@
         "label3_name" : "Username",
         "label4_name" : "Password",
         "label5_name" : "Data File",
-        "label8_name" : "Total Rows"
+        "label8_name" : "Total Rows",
+        "label9_name" : "Warning: Data will be uploaded without doing any unit conversion. Data will be using the Base Units selected on the Avalon Instance. Please check units and make the appropriate conversions before uploading.",
+        "label10_name": "Warining both \"Create Upload File\" and \"Initiate Backfill\" may take time, depending on the size of the input file. Please be patient.",
+        "special_size1": 600
     },
     "buttons": {
         "api_update_button": {
