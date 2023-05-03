@@ -130,9 +130,6 @@ def api_test_button_callback(event):
     ###     api_get_eng_units()
 
 def upload_data_file_button_callback(event):
-    # pitems.modal_component_1[:] = [pn.Row(pitems.file_dialog_1)]
-    # pitems.modal_component_2[:] = [pn.Row(pn.Column(pitems.file_dialog_1_ok), pn.Column(pitems.file_dialog_1_cancel))]
-    # tpl.open_modal()
     #
     # Get full file name from text input ant try to open it
     #
@@ -163,6 +160,10 @@ def upload_data_file_button_callback(event):
             return
         
         pitems.total_rows.value = df.shape[0]
+        #
+        # setup the start time date picker with the fitst date/time found on the input file
+        #
+        pitems.start_datetime.value = df[config['file']['time_column']].iloc[0]
 
         file_connection.full_name = fullFileName
         backfill_connection.customer_name = selection.selected_customer.name
@@ -228,6 +229,10 @@ def api_create_backfill_file_callback(event):
     #
     try: 
         initial_time = pitems.start_datetime.value
+
+        if isinstance(initial_time, pd.Timestamp):
+            initial_time = initial_time.to_pydatetime()
+
         upload_df = build_upload_file(logger, initial_time, df, backfill_connection, config)
         logger.info("Upload file created successfully.")
     except Exception as e:
@@ -450,7 +455,7 @@ def display_panel(l_logger, c_config, p_config, n_connection, web_port, s_token,
     #
     pitems.update_table2 = None
     pitems.widget3_title = pn.pane.Markdown(panel_config['widgetboxes']['3']['name'])
-    pitems.start_datetime = pn.widgets.DatetimePicker(name=panel_config['date_pickers']['1']['name'], value=datetime.now()-timedelta(hours=panel_config['date_pickers']['1']['back_hours']))
+    pitems.start_datetime = pn.widgets.DatetimePicker(name=panel_config['date_pickers']['1']['name'], value=datetime.now())
     pitems.total_upload_rows = pn.widgets.StaticText(name=panel_config['labels']["label8_name"], value=0)
     pitems.update_table_widget = pn.widgets.Tabulator(pitems.update_table2,layout='fit_data', width=panel_config['tables']['2']['width'], pagination='local', show_index=False, selectable=False, page_size=panel_config['tables']['2']['page_size'], disabled=True)    
     #

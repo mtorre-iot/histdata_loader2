@@ -12,3 +12,7 @@ class ConfigFileWriteError(Exception):
 class ConfigFileReadError(Exception):
     def __init__(self, message):            
         super().__init__(message)
+
+class DataError(Exception):
+    def __init__(self, message):            
+        super().__init__(message)

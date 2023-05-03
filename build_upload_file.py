@@ -1,10 +1,11 @@
 #
 # Mario Torre - 04/20/2023
 #
-from datetime import timedelta
+from datetime import datetime, timedelta
 import math
 import os
 import pandas as pd
+from classes.exception_classes import DataError
 from lib.miscfuncs import convertLocalDateTimetoUTC, formatDateTimeToISO8601_UTC
 
 def build_upload_file(logger, initial_time, input_df, backfill_connection, config):
@@ -32,6 +33,13 @@ def build_upload_file(logger, initial_time, input_df, backfill_connection, confi
     #
     time_col = input_df.columns[0]
     first_time = input_df[time_col].iloc[0]
+    #
+    # Get the last original timestamp
+    #
+    last_time = input_df[time_col].iloc[-1]
+    corrected_last_time = initial_time + timedelta(seconds=(last_time-first_time).total_seconds())
+    if (corrected_last_time > datetime.now()):
+        raise DataError("build_upload_file() - Timestamp error - datetimes cannot land in the future. Select a proper start time.")
     curr_time = first_time
     rowNum = 0
     for index, row in input_df.iterrows():
@@ -40,9 +48,8 @@ def build_upload_file(logger, initial_time, input_df, backfill_connection, confi
         diff = (curr_time - first_time).total_seconds()
         interv = (curr_time - prev_time).total_seconds()
         if (interv == 0) and (index > 0):
-            logger.warning("Data Error - time stamp duplication at time: " + str(curr_time) + ". Please check data. Record skipped.")
+            logger.warning("build_upload_file() - time stamp duplication at time: " + str(curr_time) + ". Please check data. Record skipped.")
             continue
- 
         time = date_time_0 + timedelta(seconds=diff)
         for tag in tagsArray:
             value = row[tag.name]
@@ -57,7 +64,6 @@ def build_upload_file(logger, initial_time, input_df, backfill_connection, confi
                 continue
 
             timeStampStr = formatDateTimeToISO8601_UTC(time)
-            ## print(customer_id + "," + tag.dataSourceId + "," + tag.physicalTagId + "," + str(value) + "," + str(quality) + "," + timeStampStr)
             upload_df.loc[rowNum] = [customer_id, tag.dataSourceId, tag.physicalTagId, value, quality, timeStampStr]
             rowNum += 1
             if (rowNum % 1000 == 0):
