@@ -119,7 +119,9 @@
         }
     },
     "file": {
-        "time_column" : "Time"
+        "time_column" : "Time",
+        "split_size" : 100000,
+        "breath_betw_uploads": 20
     },
     "opts": {
         "webport_help": "Web port",
@@ -137,7 +139,9 @@
         "connection_file_deploy": "connection_deploy.json",
         "panel_config_file": "panel_config.json",
         "upload_dir": "data/",
-        "upload_file": "upload_file.csv"
+        "upload_file": "upload_file.csv",
+        "split_dir": "split/",
+        "split_file": "split_file_{0}.csv"
     },
     "log": {
         "log_to_file": false,

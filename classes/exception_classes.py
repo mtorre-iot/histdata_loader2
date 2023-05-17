@@ -16,3 +16,7 @@ class ConfigFileReadError(Exception):
 class DataError(Exception):
     def __init__(self, message):            
         super().__init__(message)
+
+class DirectoryError(Exception):
+    def __init__(self, message):            
+        super().__init__(message)

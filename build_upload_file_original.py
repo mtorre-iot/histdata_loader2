@@ -1,7 +1,6 @@
 #
 # Mario Torre - 04/20/2023
 #
-import csv
 from datetime import datetime, timedelta
 import math
 import os
@@ -10,24 +9,18 @@ from classes.exception_classes import DataError
 from lib.miscfuncs import convertLocalDateTimetoUTC, formatDateTimeToISO8601_UTC
 
 def build_upload_file(logger, initial_time, input_df, backfill_connection, config):
-    #
-    # Open CSV file for writing 
-    #
-    csvFile = os.path.join(config['dirs']['upload_dir'], config['dirs']['upload_file'])
-    try:
-        csvf = open(csvFile, 'w', newline='')
-        writer = csv.writer(csvf, delimiter=',')
-    except Exception as e:
-        raise DataError("build_upload_file() - File: (." + csvFile + ") cannot be created.")
+    upload_df = pd.DataFrame(columns = config['misc']['backfill_data_cols'])
     # Get customer_id 
     customer_id = backfill_connection.customer_id
-    
     quality = config['misc']['quality']['good']
     #
     # Get the initial time as selected by customer
     #
     date_time_0 = convertLocalDateTimetoUTC(initial_time)
-
+    #
+    # Reindex the dataframe
+    #
+    ##input_df = input_df.reset_index()  # make sure indexes pair with number of rows
     numRows = input_df.shape[0]
     numCols = input_df.shape[1]
     numNewRows = numRows*(numCols-1)
@@ -72,22 +65,19 @@ def build_upload_file(logger, initial_time, input_df, backfill_connection, confi
                 continue
 
             timeStampStr = formatDateTimeToISO8601_UTC(time)
-            writer.writerow([customer_id, tag.dataSourceId, tag.physicalTagId, value, quality, timeStampStr])
+            upload_df.loc[rowNum] = [customer_id, tag.dataSourceId, tag.physicalTagId, value, quality, timeStampStr]
             rowNum += 1
-            if (rowNum % 10000 == 0):
+            if (rowNum % 1000 == 0):
                 # calculate % and ETA
                 perc = round(rowNum/numNewRows*100.0,1)
-                start_diff = round((datetime.now() - start_processing_time).total_seconds())
+                start_diff = (datetime.now() - start_processing_time).total_seconds()
                 elapsed = timedelta(seconds=start_diff)
-                eta_diff = timedelta(seconds=round(start_diff*100.0/perc-start_diff))
+                eta_diff = timedelta(seconds=round(start_diff*100.0/perc)-start_diff)
 
                 logger.debug("build_upload_file() - processing row: " + str(rowNum) + " - " + str(perc) + "% - Elapsed: " + str(elapsed) + " - ETA: " + str(eta_diff))
     #
-    # Close file
-    # 
-    csvf.close()
+    # new dataframe created. Save it into a csv file.
     #
-    # create a dataframe out of the recently created file!
-    #
-    upload_df = pd.read_csv(csvFile, names = config['misc']['backfill_data_cols'])
+    csvFile = os.path.join(config['dirs']['upload_dir'], config['dirs']['upload_file'])
+    upload_df.to_csv(csvFile, index=False, header=False)
     return upload_df

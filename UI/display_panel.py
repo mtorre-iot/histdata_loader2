@@ -3,9 +3,11 @@
 #
 import asyncio
 from datetime import datetime, timedelta
+import glob
 from io import BytesIO
 import os
 from pathlib import Path
+import time
 import webbrowser
 from build_upload_file import build_upload_file
 from fill_data_frame import fill_data_frame
@@ -25,6 +27,7 @@ from classes.exception_classes import BackupFileError, ConfigFileReadError, Conf
 #from lib.fill_data_frame import fill_data_frame_type_1, fill_data_frame_type_2
 #from lib.fill_event_frame import fill_event_frame_type_1
 from lib.miscfuncs import add_column_prefix, convert_array_to_dict, convert_bool_text, convert_deltat_symbol_to_seconds, convert_text_to_bool, convertLocalDateTimetoUTC, copyFile, generate_random_string, get_extension_from_filename, get_file_name_no_ext, get_names_only, removeTimezoneDateTime
+from split_upload_csv_file import split_upload_csv_file
 
 pitems = DynaPanelComponents()
 
@@ -178,32 +181,59 @@ def upload_data_file_button_callback(event):
         pitems.data_table_widget.value = df
         pitems.api_create_backfill_file_button.disabled = False
         pitems.api_initiate_backfill_button.disabled = True
+        
         show_alert(18, fullFileName)
         logger.info ("Data File " + fullFileName + " successfully loaded.")
     return
 
 def api_initiate_backfill_callback(event):
     #
-    # Check if we need to refresh the token
+    # Get the split directory path
     #
-    try:
-        session_token.Refresh(api_connection, config)
-    except Exception as e:
-        logger.error("Error trying to refresh the API token. Error: " + str(e))
-        show_alert(7, e)
+    split_dir = os.path.join(config['dirs']['upload_dir'], config['dirs']['split_dir'], config['dirs']['split_file'].format("*")) 
+    #
+    # Get the number of files stored into split subdirectory
+    #
+    dir_list = glob.glob(split_dir)
+    #
+    # check if empty
+    #
+    if (len(dir_list) == 0):
+        logger.error("No files found in split directory. Please check.")
+        show_alert(26, None)
         return
     #
-    # Go ahead an issue the upload command!
-    # 
-    try:
-        fullFileName = os.path.abspath(os.path.join(config['dirs']['upload_dir'], config['dirs']['upload_file']))
-        api_backfill.Request_backfill(api_connection, fullFileName, session_token.token, config)
-    except Exception as e:
-        logger.error("Error trying to upload backfill data to System. Error: " + str(e))
-        show_alert(22, e)
-        return
+    # repeat over all split files 
+    #  
+    for split_file in dir_list:
+        #
+        # Check if we need to refresh the token
+        #
+        try:
+            session_token.Refresh(api_connection, config)
+        except Exception as e:
+            logger.error("Error trying to refresh the API token. Error: " + str(e))
+            show_alert(7, e)
+            return
+        #
+        # Go ahead an issue the upload command!
+        # 
+        try:
+            fullFileName = os.path.abspath(split_file)
+            api_backfill.Request_backfill(api_connection, fullFileName, session_token.token, config)
+        except Exception as e:
+            logger.error("Error trying to upload backfill data from file: " + split_file + " to System. Error: " + str(e))
+            show_alert(22, e)
+            return
+        logger.info ("Upload from file split " + split_file + " completed!")
+        #
+        # Take a breath....
+        #
+        logger.debug ("Taking a breath to process upload of file " + split_file)
+        time.sleep(config['file']['breath_betw_uploads'])
+      
     
-    logger.info ("Upload completed satisfactorily!")
+    logger.info ("Upload completed satisfactorily!")    
     show_alert(23, None)
     return
     
@@ -243,8 +273,24 @@ def api_create_backfill_file_callback(event):
     pitems.update_table_widget.value = upload_df
     pitems.total_upload_rows.value = upload_df.shape[0]
     csvFile = os.path.join(config['dirs']['upload_dir'], config['dirs']['upload_file'])
+    file_size = round(os.path.getsize(csvFile)/(1024*1024))
+    num_splits =  round(upload_df.shape[0]/config['file']['split_size'] + 0.5)
+    pitems.file_size.value = file_size
+    pitems.num_splits.value = num_splits
     show_alert(21, csvFile)
     logger.info ("Upload File " + csvFile + " successfully created.")
+    #
+    # Split the big CSV file to something Avalon can swallow
+    #
+    try:
+        split_upload_csv_file(logger, config)
+        message = "File csv created and split completed. Total of {0} files created.".format(num_splits)
+        logger.info (message)
+        show_alert(25, str(num_splits))
+    except Exception as e:
+        show_alert(24, e)
+        logger.error(str(e))
+        return
 # ----------------------------------------------------------------------------- #
 # Misc Functions 
 # ----------------------------------------------------------------------------- #
@@ -457,6 +503,8 @@ def display_panel(l_logger, c_config, p_config, n_connection, web_port, s_token,
     pitems.widget3_title = pn.pane.Markdown(panel_config['widgetboxes']['3']['name'])
     pitems.start_datetime = pn.widgets.DatetimePicker(name=panel_config['date_pickers']['1']['name'], value=datetime.now())
     pitems.total_upload_rows = pn.widgets.StaticText(name=panel_config['labels']["label8_name"], value=0)
+    pitems.file_size = pn.widgets.StaticText(name=panel_config['labels']["label11_name"], value=0)
+    pitems.num_splits = pn.widgets.StaticText(name=panel_config['labels']["label12_name"], value=0)
     pitems.update_table_widget = pn.widgets.Tabulator(pitems.update_table2,layout='fit_data', width=panel_config['tables']['2']['width'], pagination='local', show_index=False, selectable=False, page_size=panel_config['tables']['2']['page_size'], disabled=True)    
     #
     # Widget 3 Buttons
@@ -647,14 +695,17 @@ def display_panel(l_logger, c_config, p_config, n_connection, web_port, s_token,
         pn.Row(
             pn.Column(pitems.start_datetime),
             pn.Column(pitems.api_create_backfill_file_button),
-            pn.Spacer(width=50),
+            pn.Spacer(width=30),
             pn.Column(pitems.api_initiate_backfill_button),
-            pn.Spacer(width=50),
-            pn.Column(pitems.total_upload_rows)
+            pn.Spacer(width=30),
+            pn.Column(pitems.total_upload_rows),
+            pn.Column(pitems.file_size),
+            pn.Column(pitems.num_splits)
         )
     )
-    widgetbox_3.append(pn.Row(pitems.update_table_widget))
     widgetbox_3.append(pn.Row(pitems.warning_time))
+    widgetbox_3.append(pn.Row(pitems.update_table_widget))
+
     tabs.append(widgetbox_3)
 
     # COMMON WIDGET -----------------------------------------------------------------------------------

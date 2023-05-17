@@ -42,4 +42,6 @@ class DynaPanelComponents(object):
         self.start_datetime = None
         self.total_rows = None
         self.total_upload_rows = None
+        self.file_size = None
+        self.num_splits = None
        

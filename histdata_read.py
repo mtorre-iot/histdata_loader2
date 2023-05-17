@@ -19,7 +19,7 @@ def histdata_read(logger, cfg, api_tags, fullFileName):
     # Try to read file it as csv
     #
     logger.debug ("Reading csv file: " + fullFileName)
-    df = pd.read_csv(fullFileName)
+    df = pd.read_csv(fullFileName, comment="#")
     # 
     # read successful - 1st row are the tag names. 
     #
