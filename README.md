@@ -1,3 +1,28 @@
+Mario Torre
+
+dependencies:
+
+panel
+pandas
+numpy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Script to set datasource back in time (thanks: Gerhard Powell)
 
 [3:09 PM] Gerhard Powell
