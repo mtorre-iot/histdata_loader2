@@ -7,7 +7,7 @@
         }
     },
     "file": {
-        "full_name": "C:\\Users\\MCTorre3\\OneDrive - Sensia Global\\Desktop\\YVES DATA\\Production BI demo\\Final\\Well3_final_MT.csv"
+        "full_name": "C:\\Users\\MCTorre3\\OneDrive - Sensia Global\\Desktop\\YVES DATA\\Production BI demo\\Final\\Well4_final_MT_corrected.csv"
     },
     "backfill": {
         "full_url": "https://sandbox.sensiadigital.net/timeseries/customers/90713344-18a2-4fe0-8202-3b7047689ccf/timeseries",
@@ -18,129 +18,117 @@
         "operation": "",
         "customer_name": "Augustinian Petroleum",
         "customer_id": "90713344-18a2-4fe0-8202-3b7047689ccf",
-        "asset_name": "Well3",
-        "asset_id": "38ceb35e-367a-4b3a-a2be-17fd91a1da94",
-        "asset_full_tree_name": " / East / ESP / Well3",
+        "asset_name": "Well4",
+        "asset_id": "6462bd36-ba6c-4e1b-9618-19f83e430400",
+        "asset_full_tree_name": " / NorthWest / Well4",
         "tag_backfill_full_info_array": [
             {
-                "name": "Drive Output Frequency",
-                "tagId": "e7064a29-b71e-48ba-903e-710009d24d66",
-                "dataSourceId": "7e2e8d2f-5117-4fef-8b75-5cad43e23ecb",
-                "physicalTagId": "e7064a29-b71e-48ba-903e-710009d24d66"
+                "name": "VFD Output Frequency",
+                "tagId": "7a8b49df-5fda-4bd1-af50-7c222a67f884",
+                "dataSourceId": "9945ec82-e2f9-4b31-bc1f-4d00cd5f7e49",
+                "physicalTagId": "7a8b49df-5fda-4bd1-af50-7c222a67f884"
             },
             {
-                "name": "Drive Output Current",
-                "tagId": "db66a1bc-fc4d-41f0-8cec-b2aba2284678",
-                "dataSourceId": "7e2e8d2f-5117-4fef-8b75-5cad43e23ecb",
-                "physicalTagId": "db66a1bc-fc4d-41f0-8cec-b2aba2284678"
+                "name": "Motor Current (Average)",
+                "tagId": "19b96a64-4516-465d-a718-8b17564d23bf",
+                "dataSourceId": "9945ec82-e2f9-4b31-bc1f-4d00cd5f7e49",
+                "physicalTagId": "19b96a64-4516-465d-a718-8b17564d23bf"
             },
             {
-                "name": "Drive Output Voltage",
-                "tagId": "bff888be-6f73-4e03-9ffc-be92ec623ee8",
-                "dataSourceId": "7e2e8d2f-5117-4fef-8b75-5cad43e23ecb",
-                "physicalTagId": "bff888be-6f73-4e03-9ffc-be92ec623ee8"
+                "name": "VFD Output Voltage (Average)",
+                "tagId": "84b60e69-5aac-47b6-9bad-998a13c70674",
+                "dataSourceId": "9945ec82-e2f9-4b31-bc1f-4d00cd5f7e49",
+                "physicalTagId": "84b60e69-5aac-47b6-9bad-998a13c70674"
             },
             {
-                "name": "Intake Temperature",
-                "tagId": "acefd5ae-3eb7-41f0-8469-50eda1c3a27b",
-                "dataSourceId": "7e2e8d2f-5117-4fef-8b75-5cad43e23ecb",
-                "physicalTagId": "acefd5ae-3eb7-41f0-8469-50eda1c3a27b"
+                "name": "Pump Intake Temperature",
+                "tagId": "c2f0944f-1bba-44e6-b3cd-fc6cc76fe82f",
+                "dataSourceId": "9945ec82-e2f9-4b31-bc1f-4d00cd5f7e49",
+                "physicalTagId": "c2f0944f-1bba-44e6-b3cd-fc6cc76fe82f"
             },
             {
                 "name": "Motor Temperature",
                 "tagId": "8d570de8-0e07-434d-b3d5-2111f4c2d294",
-                "dataSourceId": "7e2e8d2f-5117-4fef-8b75-5cad43e23ecb",
+                "dataSourceId": "9945ec82-e2f9-4b31-bc1f-4d00cd5f7e49",
                 "physicalTagId": "8d570de8-0e07-434d-b3d5-2111f4c2d294"
             },
             {
-                "name": "Intake Pressure",
-                "tagId": "432d449b-6964-48b6-a7c0-11748775700b",
-                "dataSourceId": "7e2e8d2f-5117-4fef-8b75-5cad43e23ecb",
-                "physicalTagId": "432d449b-6964-48b6-a7c0-11748775700b"
+                "name": "Pump Intake Pressure",
+                "tagId": "a2eb2713-2d95-4cd3-b38c-fcff0a772cea",
+                "dataSourceId": "9945ec82-e2f9-4b31-bc1f-4d00cd5f7e49",
+                "physicalTagId": "a2eb2713-2d95-4cd3-b38c-fcff0a772cea"
             },
             {
-                "name": "Discharge Pressure",
-                "tagId": "e101ffd2-8e4f-4c72-9ac1-13d76a2cd15a",
-                "dataSourceId": "7e2e8d2f-5117-4fef-8b75-5cad43e23ecb",
-                "physicalTagId": "e101ffd2-8e4f-4c72-9ac1-13d76a2cd15a"
+                "name": "Pump Discharge Pressure",
+                "tagId": "5aab5294-9575-4181-9fb5-dfaf1a2b99a8",
+                "dataSourceId": "9945ec82-e2f9-4b31-bc1f-4d00cd5f7e49",
+                "physicalTagId": "5aab5294-9575-4181-9fb5-dfaf1a2b99a8"
             },
             {
                 "name": "Tubing Head Pressure",
                 "tagId": "e36c769d-f726-4bf5-ad3f-14c7c6013012",
-                "dataSourceId": "7e2e8d2f-5117-4fef-8b75-5cad43e23ecb",
+                "dataSourceId": "9945ec82-e2f9-4b31-bc1f-4d00cd5f7e49",
                 "physicalTagId": "e36c769d-f726-4bf5-ad3f-14c7c6013012"
             },
             {
                 "name": "Episodic Water Cut",
                 "tagId": "3a961842-c203-4542-99f0-0c49db75241c",
-                "dataSourceId": "7e2e8d2f-5117-4fef-8b75-5cad43e23ecb",
+                "dataSourceId": "9945ec82-e2f9-4b31-bc1f-4d00cd5f7e49",
                 "physicalTagId": "3a961842-c203-4542-99f0-0c49db75241c"
             },
             {
                 "name": "Pump Flowrate",
                 "tagId": "96bf4277-926e-4488-b376-35a10be51a1a",
-                "dataSourceId": "7e2e8d2f-5117-4fef-8b75-5cad43e23ecb",
+                "dataSourceId": "9945ec82-e2f9-4b31-bc1f-4d00cd5f7e49",
                 "physicalTagId": "96bf4277-926e-4488-b376-35a10be51a1a"
             },
             {
                 "name": "Surface Flowrate",
                 "tagId": "e33dfcfe-bd39-44b0-ba8b-6fafedbdc3a8",
-                "dataSourceId": "7e2e8d2f-5117-4fef-8b75-5cad43e23ecb",
+                "dataSourceId": "9945ec82-e2f9-4b31-bc1f-4d00cd5f7e49",
                 "physicalTagId": "e33dfcfe-bd39-44b0-ba8b-6fafedbdc3a8"
             },
             {
                 "name": "Surface Oil Rate",
                 "tagId": "28a79201-f777-4103-9d1e-91963912c1a4",
-                "dataSourceId": "7e2e8d2f-5117-4fef-8b75-5cad43e23ecb",
+                "dataSourceId": "9945ec82-e2f9-4b31-bc1f-4d00cd5f7e49",
                 "physicalTagId": "28a79201-f777-4103-9d1e-91963912c1a4"
             },
             {
                 "name": "Cumulative Oil Production",
                 "tagId": "d4e60f13-824c-4022-909f-cdc361cc90b3",
-                "dataSourceId": "7e2e8d2f-5117-4fef-8b75-5cad43e23ecb",
+                "dataSourceId": "9945ec82-e2f9-4b31-bc1f-4d00cd5f7e49",
                 "physicalTagId": "d4e60f13-824c-4022-909f-cdc361cc90b3"
             },
             {
                 "name": "Surface Water Rate",
                 "tagId": "7aab3d49-7d63-48e3-9153-30f4c00448ca",
-                "dataSourceId": "7e2e8d2f-5117-4fef-8b75-5cad43e23ecb",
+                "dataSourceId": "9945ec82-e2f9-4b31-bc1f-4d00cd5f7e49",
                 "physicalTagId": "7aab3d49-7d63-48e3-9153-30f4c00448ca"
             },
             {
                 "name": "Cumulative Water Production",
                 "tagId": "6722dcca-e854-485e-a5a2-4d2f12d70f34",
-                "dataSourceId": "7e2e8d2f-5117-4fef-8b75-5cad43e23ecb",
+                "dataSourceId": "9945ec82-e2f9-4b31-bc1f-4d00cd5f7e49",
                 "physicalTagId": "6722dcca-e854-485e-a5a2-4d2f12d70f34"
             },
             {
                 "name": "Cumulative Run Time",
                 "tagId": "fe12ec6e-833d-4b7b-b1af-73d53618c3de",
-                "dataSourceId": "7e2e8d2f-5117-4fef-8b75-5cad43e23ecb",
+                "dataSourceId": "9945ec82-e2f9-4b31-bc1f-4d00cd5f7e49",
                 "physicalTagId": "fe12ec6e-833d-4b7b-b1af-73d53618c3de"
             },
             {
                 "name": "Oil Forecast",
                 "tagId": "bc711562-f83b-495e-9ba7-87eb05a7dfda",
-                "dataSourceId": "7e2e8d2f-5117-4fef-8b75-5cad43e23ecb",
+                "dataSourceId": "9945ec82-e2f9-4b31-bc1f-4d00cd5f7e49",
                 "physicalTagId": "bc711562-f83b-495e-9ba7-87eb05a7dfda"
             },
             {
                 "name": "Cumulative Oil Forecast",
                 "tagId": "1714b13e-dd7c-47e4-808c-4653efa11c32",
-                "dataSourceId": "7e2e8d2f-5117-4fef-8b75-5cad43e23ecb",
+                "dataSourceId": "9945ec82-e2f9-4b31-bc1f-4d00cd5f7e49",
                 "physicalTagId": "1714b13e-dd7c-47e4-808c-4653efa11c32"
-            },
-            {
-                "name": "ESP Power",
-                "tagId": "9e264f56-856f-449a-8075-fc7dd84a4be3",
-                "dataSourceId": "7e2e8d2f-5117-4fef-8b75-5cad43e23ecb",
-                "physicalTagId": "9e264f56-856f-449a-8075-fc7dd84a4be3"
-            },
-            {
-                "name": "Cumulative ESP Power",
-                "tagId": "b39d1abc-fcbf-416c-99b7-4a115512e12b",
-                "dataSourceId": "7e2e8d2f-5117-4fef-8b75-5cad43e23ecb",
-                "physicalTagId": "b39d1abc-fcbf-416c-99b7-4a115512e12b"
             }
         ]
     },

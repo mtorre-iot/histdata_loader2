@@ -3,6 +3,7 @@
 #
 from datetime import datetime as dt
 import datetime
+from fileinput import close
 import json
 import requests
 from UI.alerts import set_alert_message
@@ -621,9 +622,11 @@ class AvalonBackFill(AvalonAPIBase):
 
     def Build_backfill_files(self, fullFileName):
         
+        fh = open(fullFileName, 'rb')
         self.files = {
-            'incfile': open(fullFileName, 'rb')
+            'incfile': fh
         }
+        return fh
 
     def Request(self):
         self.data_response  = requests.request(self.operation, self.url, headers=self.headers, files=self.files)
@@ -636,9 +639,10 @@ class AvalonBackFill(AvalonAPIBase):
             self.Build_url(config['api']['backfill']['url_prefix'], api_connection.basic_url, config['api']['backfill']['url_suffix'])
             self.Build_backfill_headers(config['api']['backfill']['content_type'], config['api']['backfill']['headers'], config['api']['backfill']['authorization_type'], \
                 config['api']['backfill']['authorization'], token)
-            self.Build_backfill_files(fullFileName)
+            fh = self.Build_backfill_files(fullFileName)
             self.operation = config['api']['backfill']['operation']
             status = self.Request()
+            fh.close()
             if status == False:
                 raise Exception("Asset Request failed. Message: HTTP %i - %s, Message %s" % (self.data_response.status_code, self.data_response.reason, self.data_response.text))
 
